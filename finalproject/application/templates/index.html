@@ -1,0 +1,264 @@
+{% extends 'base.html' %}
+
+{% block title %}Portafolio&nbsp;|&nbsp;José Quispe Reyes{% endblock title %}
+
+
+{% block content %}
+<body>{% load static %}
+    
+
+  <!-- ======= Mobile nav toggle button ======= -->
+  <i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
+
+  <!-- ======= Header ======= -->
+  <header id="header">
+    <div class="d-flex flex-column">
+
+      <div class="profile">
+        <img src="{% static 'img/profile.jpg' %}" alt="" class="img-fluid rounded-circle">
+        <h1 class="text-light"><a>José Quispe Reyes<br></a>
+        </h1>
+        <div class="social-links mt-3 text-center">
+          <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+          <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+          <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+          <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+          <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+          
+        </div>
+      </div>
+
+      <nav id="navbar" class="nav-menu navbar">
+        <ul>
+          <li><a href="#fondo" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Inicio</span></a></li>
+          <li><a href="#about" class="nav-link scrollto"><i class="bx bx-file-blank"></i><span>PortFolio</span></a></li>
+          <li><a href="#testimonials" class="nav-link scrollto"><i class="bx bx-server"></i><span>Proyectos</span></a></li>
+          <li><a href="#contact" class="nav-link scrollto"><i class="bx bx-envelope"></i> <span>Contact</span></a></li>
+          
+        </ul>
+      </nav><!-- .nav-menu -->
+    </div>
+  </header><!-- End Header -->
+
+  <!-- ======= Hero Section ======= -->
+  <section id="fondo" class="d-flex flex-column justify-content-center align-items-center">
+    <div class="fondo-container" data-aos="fade-in">
+      <h1>José Quispe Reyes</h1>
+      <p><span class="typed" data-typed-items="Bienvenido {{ request.user.first_name }}&nbsp;{{ request.user.last_name }}, Soy diseñador, Soy Programador Jr."></span></p>
+    </div>
+  </section><!-- End Hero -->
+
+  <main id="main">
+
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+      <div class="container">
+
+        <div class="section-title">
+          <h2 id="section_title">Portafolio</h2>
+          <p>¡Soy José Quispe Reyes y me gusta programar!</p>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-4" data-aos="fade-right">
+            <img src="{% static 'img/hello.gif' %}" class="img-fluid" alt="">
+          </div>
+          <div class="col-lg-8 pt-4 pt-lg-0 content" data-aos="fade-left">
+            <h3>Jr Developer &amp; Designer</h3>
+            <p class="fst-italic">
+              Apasionado por la tecnología, el diseño, y la programación.
+              Buscando diariamente cosas nuevas por aprender.
+            </p>
+            <div class="row">
+              <div class="col-lg-6">
+                <ul>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Cumpleaños:</strong> <span>23 Nov. 1999</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Sitio Web:</strong> <a href="https://sites.google.com/a/istpargentina.edu.pe/jose-quispe/" target="_blank">My Site</a></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Teléfono:</strong> <span>901 481 113</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Ciudad:</strong> <span>Lima, Perú</span></li>
+                </ul>
+              </div>
+              <div class="col-lg-6">
+                <ul>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Edad:</strong> <span>23</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Grado:</strong> <span>Junior</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Correo:</strong> <span>iquisper2@gmail.com</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Freelance:</strong> <span>Available</span></li>
+                </ul>
+              </div>
+            </div>
+            <p>
+              
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End About Section -->
+
+
+
+
+     <!-- ======= Testimonials Section ======= --> 
+    <section id="testimonials" >
+
+      <div class="section-title">
+        <h2 id="section_title">Proyectos</h2>
+          {% if request.user.is_authenticated %}
+            <a id="add_project" href="{% url 'form' %}">Agregar Nuevo Proyecto</a>
+          {% else %}
+            <p id="not_add_project_text">Por favor,<a id="not_add_project" href="{% url 'login' %}">regístrate</a> para agregar nuevos proyectos.</p>
+          {% endif %} 
+      </div>
+
+      <div style="display: flex;  justify-content: space-around; flex-wrap: wrap; ">
+        
+        {% for i in form %} 
+          <div id="project-container">
+            <div class="testimonial-item" data-aos="fade-up"> 
+              <h3 id="title">{{i.title}}</h3>
+              <img src="{{i.url_photo}}" id="image_project" alt="">
+              <p id="description">
+                <strong>Descripción:</strong>
+                <br>{{i.description}} 
+              </p>
+              <p id="tags"><strong>Tags:</strong>
+                <br> {{i.tags}}</p>
+
+                {% if 'https://github.com/' not in i.url_github %}
+                  <p><a id="git_fail">¡Url GitHub no válida!</a></p>
+                {% else %}
+                  <p><a id="git" href="{{i.url_github}}" target="_blank">GitHub</a></p>
+                {% endif %}
+            
+              
+            </div>
+          </div>
+        {% endfor %}
+
+      </div>
+
+    </section>
+
+    <!-- End Testimonials Section -->
+
+
+
+
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+      <div class="container">
+
+        <div class="section-title">
+          <h2 id="section_title">Contact</h2>
+          <p></p>
+        </div>
+
+        <div class="row" data-aos="fade-in">
+
+          <div class="col-lg-5 d-flex align-items-stretch">
+            <div class="info">
+              <div class="address">
+                <i class="bi bi-geo-alt"></i>
+                <h4>Localización:</h4>
+                <p>Lima, Perú</p>
+              </div>
+
+              <div class="email">
+                <i class="bi bi-envelope"></i>
+                <h4>Correo:</h4>
+                <p>iquisper2@gmail.com</p>
+              </div>
+
+              <div class="phone">
+                <i class="bi bi-phone"></i>
+                <h4>Teléfono:</h4>
+                <p>+1 5589 55488 55s</p>
+              </div>
+
+              <iframe src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=es&amp;q=PER%C3%9A+(Mi%20nombre%20de%20egocios)&amp;t=&amp;z=6&amp;ie=UTF8&amp;iwloc=B&amp;output=embed" frameborder="0" style="border:0; width: 100%; height: 290px;" allowfullscreen></iframe>
+            </div>
+
+          </div>
+
+
+
+          <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
+            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label for="name">Tu nombre</label>
+                  <input type="text" name="name" class="form-control" id="name" required>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="name">Tu correo</label>
+                  <input type="email" class="form-control" name="email" id="email" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="name">Asunto</label>
+                <input type="text" class="form-control" name="subject" id="subject" required>
+              </div>
+              <div class="form-group">
+                <label for="name">Mensaje</label>
+                <textarea class="form-control" name="message" rows="10" required></textarea>
+              </div>
+              <div class="my-3">
+              </div>
+              <div class="text-center"><button onclick="myalert()" type="submit">Enviar Mensaje</button></div>
+            </form>
+          </div>
+
+
+        </div>
+
+      </div>
+    </section><!-- End Contact Section -->
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="container">
+      <div class="copyright">
+        {% if request.user.is_authenticated %}
+          Estás registrado cómo: <br>
+          <h5>{{ request.user.first_name }}&nbsp;{{ request.user.last_name }}</h5>
+        {% else %}
+          <h5>¡Aún no estás registrado!</h5>
+        {% endif %}
+      </div>
+      <div class="credits" style="padding-bottom: 25px;">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/iportfolio-bootstrap-portfolio-websites-template/ -->
+        {% if request.user.is_authenticated %}
+          <a id="logout" href="{% url 'logout' %}" class="nav-link scrollto">Cerrar Sesión</a>
+        {% else %}
+          <a id="login" href="{% url 'login' %}">Regístrate</a>
+        {% endif %}</a>
+      </div>
+    </div>
+  </footer><!-- End  Footer -->
+
+        <!-- <div>
+            {% for i in form %} 
+           <ul>
+            <li>{{i.title}}</li>
+            <li><img  src="{{i.url_photo}}" style="width: 50%; border-radius: 14px;"></li>
+            <li><a href="{{i.url_github}}" >GitHub</a></li>
+            <li>{{i.description}} - {{i.tags}}</li>
+           </ul>     <p></p>
+            {% endfor %}
+            <a href="{% url 'form' %}">Agregar Nuevo Proyecto</a>
+          </div> -->
+</body>
+<script>
+  function myalert() {
+      alert("¡Enviado!");
+  }
+</script>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+{% endblock content %}
